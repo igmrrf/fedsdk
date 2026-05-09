@@ -1,0 +1,16 @@
+# Source & config — not needed by consumers
+src/
+tests/
+scripts/
+tsconfig.json
+tsup.config.ts
+*.tsbuildinfo
+
+# Dev artifacts
+node_modules/
+.claude/
+implementation.md
+bun.lock
+
+# Sourcemaps — large (2–3 MB each), opt-in via sourcesContent if needed
+dist/**/*.map

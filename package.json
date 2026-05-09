@@ -1,0 +1,60 @@
+{
+  "name": "fedsdk",
+  "version": "0.0.1",
+  "description": "US ABA routing number validation against FedACH + Fedwire directories",
+  "keywords": [
+    "ach",
+    "wire",
+    "fedwire",
+    "fedach",
+    "routing-number",
+    "aba",
+    "validation",
+    "federal-reserve",
+    "banking",
+    "fintech"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/igmrrf/fedsdk.git"
+  },
+  "homepage": "https://github.com/igmrrf/fedsdk#readme",
+  "bugs": {
+    "url": "https://github.com/igmrrf/fedsdk/issues"
+  },
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/index.js",
+    "dist/index.mjs",
+    "dist/index.d.ts",
+    "dist/index.d.mts",
+    "data/data.json",
+    "scripts/sync.mjs"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "sync": "node scripts/sync.mjs",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "node scripts/sync.mjs && bun run build"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tsup": "^8.0.0",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
