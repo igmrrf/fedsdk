@@ -3,12 +3,12 @@ import type { RoutingEntry, LookupResult } from './types'
 
 const _require = createRequire(import.meta.url)
 
-let _db: Record<string, RoutingEntry> | null = null
+let _db: Record<string, RoutingEntry | [string, number]> | null = null
 
-function getDb(): Record<string, RoutingEntry> {
+function getDb(): Record<string, RoutingEntry | [string, number]> {
   if (_db) return _db
   try {
-    _db = _require('../data/data.json') as Record<string, RoutingEntry>
+    _db = _require('../data/data.json') as Record<string, RoutingEntry | [string, number]>
   } catch {
     _db = {}
   }
@@ -19,19 +19,36 @@ export function lookup(rn: string): LookupResult | null {
   const db = getDb()
   const entry = db[rn]
   if (!entry) return null
+
+  let name: string
+  let ach: boolean
+  let wire: boolean
+
+  if (Array.isArray(entry)) {
+    const [n, flags] = entry
+    name = n
+    ach = (flags & 1) !== 0
+    wire = (flags & 2) !== 0
+  } else {
+    name = entry.name
+    ach = entry.ach
+    wire = entry.wire
+  }
+
   return {
     routingNumber: rn,
-    name: entry.name,
-    ach: entry.ach,
-    wire: entry.wire,
+    name,
+    ach,
+    wire,
     networks: [
-      ...(entry.ach ? (['ACH'] as const) : []),
-      ...(entry.wire ? (['Fedwire'] as const) : []),
+      ...(ach ? (['ACH'] as const) : []),
+      ...(wire ? (['Fedwire'] as const) : []),
     ],
   }
 }
 
 /** Inject a custom database (useful for testing or offline use). */
-export function _setDb(db: Record<string, RoutingEntry>): void {
+export function _setDb(db: Record<string, RoutingEntry | [string, number]>): void {
   _db = db
 }
+

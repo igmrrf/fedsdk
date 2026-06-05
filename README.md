@@ -33,6 +33,16 @@ lookup('021000021')
 lookup('000000000') // null — not in directory
 ```
 
+### Browser / Edge / Lightweight Usage
+
+To use only the checksum validation (e.g., in browsers, Cloudflare Workers, Edge functions) without importing Node.js modules or loading the 750KB database, import from the `./validate` subpath:
+
+```ts
+import { validateABA } from 'fedsdk/validate'
+
+validateABA('021000021') // true
+```
+
 ## API
 
 ### `validate(rn: string): ValidationResult`

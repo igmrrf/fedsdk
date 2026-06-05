@@ -60,5 +60,14 @@ const [achText, wireText] = await Promise.all([download(SOURCES.ach), download(S
 let map = parseACH(achText)
 map = parseWire(wireText, map)
 
-writeFileSync(OUT, JSON.stringify(map))
-console.log(`fedsdk: wrote ${Object.keys(map).length.toLocaleString()} routing numbers → data/data.json`)
+const compactMap = {}
+for (const [rtn, entry] of Object.entries(map)) {
+  let flags = 0
+  if (entry.ach) flags |= 1
+  if (entry.wire) flags |= 2
+  compactMap[rtn] = [entry.name, flags]
+}
+
+writeFileSync(OUT, JSON.stringify(compactMap))
+console.log(`fedsdk: wrote ${Object.keys(compactMap).length.toLocaleString()} routing numbers → data/data.json`)
+

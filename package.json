@@ -1,6 +1,6 @@
 {
   "name": "fedsdk",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "US ABA routing number validation against FedACH + Fedwire directories",
   "keywords": [
     "ach",
@@ -31,6 +31,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./validate": {
+      "types": "./dist/validate.d.ts",
+      "import": "./dist/validate.mjs",
+      "require": "./dist/validate.js"
     }
   },
   "files": [
@@ -38,6 +43,10 @@
     "dist/index.mjs",
     "dist/index.d.ts",
     "dist/index.d.mts",
+    "dist/validate.js",
+    "dist/validate.mjs",
+    "dist/validate.d.ts",
+    "dist/validate.d.mts",
     "data/data.json",
     "scripts/sync.mjs"
   ],

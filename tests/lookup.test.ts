@@ -38,6 +38,34 @@ describe('lookup', () => {
     expect(r!.networks).toEqual(['Fedwire'])
   })
 
+  it('supports compact array database entries', () => {
+    _setDb({
+      '021000021': ['JPMORGAN CHASE COMPACT', 3],
+      '021200339': ['JPMORGAN CHASE BANK NA COMPACT', 1],
+      '026009593': ['BANK OF AMERICA NA COMPACT', 2],
+    })
+    
+    const r1 = lookup('021000021')
+    expect(r1?.name).toBe('JPMORGAN CHASE COMPACT')
+    expect(r1?.ach).toBe(true)
+    expect(r1?.wire).toBe(true)
+    expect(r1?.networks).toEqual(['ACH', 'Fedwire'])
+
+    const r2 = lookup('021200339')
+    expect(r2?.name).toBe('JPMORGAN CHASE BANK NA COMPACT')
+    expect(r2?.ach).toBe(true)
+    expect(r2?.wire).toBe(false)
+    expect(r2?.networks).toEqual(['ACH'])
+
+    const r3 = lookup('026009593')
+    expect(r3?.name).toBe('BANK OF AMERICA NA COMPACT')
+    expect(r3?.ach).toBe(false)
+    expect(r3?.wire).toBe(true)
+    expect(r3?.networks).toEqual(['Fedwire'])
+
+    _setDb(FIXTURE)
+  })
+
   it('returns null for unknown routing number', () => {
     expect(lookup('000000000')).toBeNull()
     expect(lookup('999999999')).toBeNull()

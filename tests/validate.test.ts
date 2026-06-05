@@ -11,6 +11,8 @@ describe('validateABA', () => {
     expect(validateABA('021300077')).toBe(true) // JPMorgan Chase
     expect(validateABA('026009593')).toBe(true) // BofA
     expect(validateABA('111000025')).toBe(true) // FRB Dallas
+    expect(validateABA('154000008')).toBe(true) // US Treasury Dept
+    expect(validateABA('655060042')).toBe(true) // Social Security Administration
   })
 
   it('rejects routing numbers with bad checksum', () => {
